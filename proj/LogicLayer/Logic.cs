@@ -28,6 +28,11 @@ namespace LogicLayer
         {
             data.addplayerindb(username, password);
         }
+        public bool checkIfGameExists(string player1Id, string player2Id)
+        {
+            var checkgame = data.CheckIncompleteGames(player1Id, player2Id);
+            return checkgame.Any();
+        }
 
     }
 }

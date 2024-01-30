@@ -36,5 +36,13 @@ namespace DataLayer
                 bscontext.SubmitChanges();
             
         }
+        public IQueryable<Game> CheckIncompleteGames(string player1Id, string player2Id)
+        {
+            BattleshipDataContext bscontext = new BattleshipDataContext();
+
+            return from game in bscontext.Games
+                   where game.CreatorFK == player1Id && game.OpponentFK == player2Id && !game.Complete
+                   select game;
+        }
     }
 }

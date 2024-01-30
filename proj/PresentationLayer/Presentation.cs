@@ -164,6 +164,45 @@ namespace PresentationLayer
                 }
             }
         }
+        public class gameManager
+        {
+            private Logic logic;
+
+            public gameManager(Logic logic)
+            {
+                this.logic = logic;
+            }
+
+            public void checkforxistinggame(string player1Id, string player2Id)
+            {
+                 incompleteGames = logic.CheckIncompleteGames(player1Id, player2Id); // You might need to implement this method in Logic layer
+                if (incompleteGames.Any())
+                {
+                    Console.WriteLine("You have incomplete games:");
+                    // Optionally, list the incomplete games
+
+                    Console.WriteLine("Do you want to resume an incomplete game? (Y/N)");
+                    var userInput = Console.ReadLine();
+                    if (userInput.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Logic to resume a game
+                        // You might need to select which game to resume if there are multiple
+                    }
+                    else
+                    {
+                        // Proceed to start a new game or other option
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No incomplete games. Starting a new game...");
+                    // Logic to start a new game
+                }
+            }
+
+               
+        }
 
     }
+    
 }

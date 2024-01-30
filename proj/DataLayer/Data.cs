@@ -36,17 +36,14 @@ namespace DataLayer
                 bscontext.SubmitChanges();
             
         }
-        public void CheckIncompleteGamesindb(string player1Id, string player2Id)
+        public IQueryable<Game> checkIncompletegamesindb(string player1Id, string player2Id)
         {
             BattleshipDataContext bscontext = new BattleshipDataContext();
-            var result = from Game in bscontext.Games where Game.CreatorFK == player1Id && Game.OpponentFK == player2Id && !Game.Complete select Game;
-            foreach (Game game in result)
-            {
-                Console.Write(game.ID + " ");
-                Console.Write(game.Title + " ");
-                
-            }
-
+            
+                var result = from Game in bscontext.Games where Game.CreatorFK == player1Id && Game.OpponentFK == player2Id && !Game.Complete select Game;
+                return result;
+            
         }
+        
     }
 }

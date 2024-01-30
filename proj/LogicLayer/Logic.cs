@@ -28,11 +28,11 @@ namespace LogicLayer
         {
             data.addplayerindb(username, password);
         }
-        public void CheckIncompleteGames(string player1Id, string player2Id)
+        public IQueryable<Game> checkIncompleteGames(string player1Id, string player2Id)
         {
-            data.CheckIncompleteGamesindb(player1Id, player2Id);
+            
+            return data.checkIncompletegamesindb(player1Id,player2Id);
         }
-        
         
 
     }

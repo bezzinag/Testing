@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PresentationLayer.Presentation;
+using static PresentationLayer.Presentation.PlayerManager;
 
 namespace PresentationLayer
 {
@@ -21,12 +23,15 @@ namespace PresentationLayer
         private Logic logic = new Logic();
         private menuState menuState = menuState.Initial;
         private PlayerManager playerManager;
+        private gameManager gameManager;
         public string player1;
         public string player2;
 
         public Presentation()
         {
             this.playerManager = new PlayerManager(logic);
+            this.gameManager = new gameManager(logic);
+            
         }
         public void Start()
         {
@@ -70,6 +75,7 @@ namespace PresentationLayer
                         {
                             playerManager.addPlayer(player1); // Implement this method according to your game logic
                             playerManager.addPlayer(player2);
+                            gameManager.CheckForExistingOrIncompleteGames(player1, player2);
                             menuState = menuState.PlayersAdded; // Move to the next state
                         }
                         break;
@@ -163,44 +169,37 @@ namespace PresentationLayer
                     Console.ReadKey();
                 }
             }
-        }
-        public class gameManager
-        {
-            private Logic logic;
-
-            public gameManager(Logic logic)
+            public class gameManager
             {
-                this.logic = logic;
-            }
+                private Logic logic;
 
-            public void checkforxistinggame(string player1Id, string player2Id)
-            {
-                 incompleteGames = logic.CheckIncompleteGames(player1Id, player2Id); // You might need to implement this method in Logic layer
-                if (incompleteGames.Any())
+                public gameManager(Logic logic)
                 {
-                    Console.WriteLine("You have incomplete games:");
-                    // Optionally, list the incomplete games
+                    this.logic = logic;
+                }
 
-                    Console.WriteLine("Do you want to resume an incomplete game? (Y/N)");
-                    var userInput = Console.ReadLine();
-                    if (userInput.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                public void CheckForExistingOrIncompleteGames(string player1Id, string player2Id)
+                {
+                    var incompleteGames = logic.checkIncompleteGames(player1Id, player2Id);
+                    if (incompleteGames.Any())
                     {
-                        // Logic to resume a game
-                        // You might need to select which game to resume if there are multiple
+                        Console.WriteLine("Incomplete games found:");
+                        foreach (var game in incompleteGames)
+                        {
+                            Console.WriteLine($"Game ID: {game.ID}, Title: {game.Title}");
+                        }
+                        // Further logic to handle these games...
                     }
                     else
                     {
-                        // Proceed to start a new game or other option
+                        Console.WriteLine("No incomplete games found.");
+                        // Logic for no incomplete games...
                     }
                 }
-                else
-                {
-                    Console.WriteLine("No incomplete games. Starting a new game...");
-                    // Logic to start a new game
-                }
             }
+        
 
-               
+
         }
 
     }
